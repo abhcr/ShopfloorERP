@@ -1,0 +1,247 @@
+﻿<UserControl x:Class="ShopfloorUI.Views.ProjectsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ShopfloorUI.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             x:Name="projectsViewItem"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid.Background>
+            <RadialGradientBrush>
+                <GradientStop Color="White"/>
+                <GradientStop Color="#FFEBDFD7" Offset="1"/>
+            </RadialGradientBrush>
+        </Grid.Background>
+        <Grid
+            Grid.Row="0"
+            HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="200"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Project List:" VerticalAlignment="Bottom"
+                       HorizontalAlignment="Left" Margin="10,0,0,5"/>
+            <Button Grid.Column="2"
+                HorizontalAlignment="Right"
+				Margin="5" 
+				Background="#FF674F86"
+				x:Name="ButtonRefresh"
+				Command="{Binding RefreshClickedCommand}">
+                <Button.Effect>
+                    <DropShadowEffect
+						BlurRadius="10"
+						Color="#FFB1AEAE"
+						RenderingBias="Quality"
+						ShadowDepth="5"/>
+                </Button.Effect>
+                <Grid Width="140">
+                    <materialDesign:PackIcon 
+						Margin="5,5" 
+						Kind="Refresh" 
+						HorizontalAlignment="Left" 
+						Foreground="White" 
+						Width="20" 
+						Height="20" 
+						VerticalAlignment="Center"/>
+                    <TextBlock Text="Refresh" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="14"/>
+                </Grid>
+            </Button>
+        </Grid>
+        <!--Projects list-->
+        <ListView
+            Grid.Row="1"
+            ItemsSource="{Binding ProjectsToDisplay}"
+            SelectedItem="{Binding SelectedProject}">
+            <!--<ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition MinWidth="100"/>
+                            <ColumnDefinition MinWidth="100"/>
+                            <ColumnDefinition MinWidth="100"/>
+                            <ColumnDefinition MinWidth="100"/>
+                            <ColumnDefinition MinWidth="100"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding Id}"/>
+                        <TextBlock Text="{Binding Name}" Grid.Column="1"/>
+                        <TextBlock Text="{Binding ProgressStatus}" Grid.Column="2"/>
+                        <TextBlock Text="{Binding ProgressNumber}" Grid.Column="3"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>-->
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn 
+                        Header="ID" 
+                        Width="40">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    Text="{Binding Id}" TextAlignment="Center" HorizontalAlignment="Center"
+                                    Margin="0" 
+                                    Width="25"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Project" Width="150">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock  HorizontalAlignment="Center" TextAlignment="Center"
+                                    Text="{Binding Name}"  
+                                    Margin="0" Width="140" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Status" Width="110">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock  HorizontalAlignment="Center" TextAlignment="Center"
+                                    Text="{Binding ProgressStatus}"  
+                                    Margin="0" Width="100" 
+                                    Background="{Binding StatusColor}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Deadline" Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel HorizontalAlignment="Center">
+                                    <TextBlock HorizontalAlignment="Center"
+                                        Text="{Binding DeadlineDisplay}"   TextAlignment="Center"
+                                        Margin="0" 
+                                        MinWidth="100"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Processes" Width="120">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel HorizontalAlignment="Center">
+                                    <TextBlock HorizontalAlignment="Center"
+                                        Text="{Binding ProgressNumber}"   TextAlignment="Center"
+                                        Margin="0" 
+                                        MinWidth="100"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Customer" Width="140">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Center"
+                                    Text="{Binding Customer.Name}"   
+                                    TextAlignment="Center"
+                                    Margin="0" 
+                                    MinWidth="110"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <!--Bottom options row-->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0"
+                Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Margin="10" Text="Show:"/>
+                <ComboBox x:Name="ComboboxFilter" Width="150" Margin="0,12" 
+                          VerticalContentAlignment="Center"
+                          ItemsSource="{Binding FilterOptions}"
+                          SelectedItem="{Binding SelectedFilterOption, Mode=TwoWay}">
+                </ComboBox>
+            </StackPanel>
+            <Button Grid.Column="3"
+                HorizontalAlignment="Right"
+				Margin="5" 
+				Background="#FF674F86"
+				x:Name="ButtonAddNew"
+				Command="{Binding NewProjectClickedCommand}">
+                <Button.Effect>
+                    <DropShadowEffect
+						BlurRadius="10"
+						Color="#FFB1AEAE"
+						RenderingBias="Quality"
+						ShadowDepth="5"/>
+                </Button.Effect>
+                <Grid Width="140">
+                    <materialDesign:PackIcon 
+						Margin="5,5" 
+						Kind="Add" 
+						HorizontalAlignment="Left" 
+						Foreground="White" 
+						Width="20" 
+						Height="20" 
+						VerticalAlignment="Center"/>
+                    <TextBlock Text="New Project" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="14"/>
+                </Grid>
+            </Button>
+            <Button Grid.Column="2" IsEnabled="{Binding IsProjectSelected}"
+                    HorizontalAlignment="Right" 
+				    Margin="5" 
+				    Background="#FF674F86"
+				    Command="{Binding ProjectOpenClickedCommand}">
+                <Button.Effect>
+                    <DropShadowEffect
+						BlurRadius="10"
+						Color="#FFB1AEAE"
+						RenderingBias="Quality"
+						ShadowDepth="5"/>
+                </Button.Effect>
+                <Grid Width="150">
+                    <materialDesign:PackIcon 
+						Margin="5,5" 
+						Kind="OpenInApp" 
+						HorizontalAlignment="Left" 
+						Foreground="White" 
+						Width="20" 
+						Height="20" 
+						VerticalAlignment="Center"/>
+                    <TextBlock Text="Open Selected" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="14"/>
+                </Grid>
+            </Button>
+            <Button Grid.Column="1" 
+                IsEnabled="{Binding IsProjectSelected}"
+                    HorizontalAlignment="Right" 
+				    Margin="5" 
+				    Background="#FF8D4E4E"
+				    x:Name="ButtonDeleteProcess"
+				    Command="{Binding DeleteProjectClickedCommand}">
+                <Button.Effect>
+                    <DropShadowEffect
+						    BlurRadius="10"
+						    Color="DarkGray"
+						    RenderingBias="Quality"
+						    ShadowDepth="5"/>
+                </Button.Effect>
+                <Grid Width="140">
+                    <materialDesign:PackIcon 
+						    Margin="5,5" 
+						    Kind="Delete" 
+						    HorizontalAlignment="Left" 
+						    Foreground="White" 
+						    Width="20"
+						    Height="20" 
+    						VerticalAlignment="Center"/>
+                    <TextBlock Text="Delete Project" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="14"/>
+                </Grid>
+            </Button>
+
+        </Grid>
+    </Grid>
+</UserControl>

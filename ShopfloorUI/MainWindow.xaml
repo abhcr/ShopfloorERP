@@ -1,0 +1,228 @@
+﻿<Window x:Class="ShopfloorUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ShopfloorUI"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d" 
+        Height="600" Width="1024" ResizeMode="NoResize" WindowStyle="None"
+        xmlns:viewModels="clr-namespace:ShopfloorUI.ViewModels"
+        xmlns:views="clr-namespace:ShopfloorUI.Views" WindowStartupLocation="CenterScreen" Title="ShopFloorERP"
+        >
+    <Window.Resources>
+        <DataTemplate 
+            x:Name="dashboard"
+            DataType="{x:Type viewModels:DashboardViewModel}">
+            <views:DashboardView DataContext="{Binding}"/>
+        </DataTemplate>
+        <DataTemplate 
+            x:Name="organization"
+            DataType="{x:Type viewModels:OrganizationViewModel}">
+            <views:OrganizationView DataContext="{Binding}"/>
+        </DataTemplate>
+        <DataTemplate
+            x:Name="projects"
+            DataType="{x:Type viewModels:ProjectsViewModel}">
+            <views:ProjectsView DataContext="{Binding}"/>
+        </DataTemplate>
+        <DataTemplate
+            x:Name="addEditProjects"
+            DataType="{x:Type viewModels:AddEditProjectViewModel}">
+            <views:AddEditProjectView DataContext="{Binding}"/>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <ContentControl 
+            Content="{Binding}" 
+            Grid.Column="1" 
+            HorizontalAlignment="Stretch"  
+            Grid.Row="1" 
+            VerticalAlignment="Stretch"/>
+        <Grid Grid.Row="1">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFC3C3C3" Offset="1"/>
+                    <GradientStop Color="#FFEDEDED" Offset="0"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+            <Grid.RowDefinitions>
+                <RowDefinition 
+                    Height="100"/>
+                <RowDefinition
+                    Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.Effect>
+                <DropShadowEffect 
+                    BlurRadius="10" 
+                    Color="#FFB1AEAE" 
+                    RenderingBias="Quality" 
+                    ShadowDepth="1"
+                    />
+            </Grid.Effect>
+            <Grid>
+                <Grid.Background>
+                    <RadialGradientBrush>
+                        <GradientStop Color="White"/>
+                        <GradientStop Color="#FFFEC5B8" Offset="1"/>
+                    </RadialGradientBrush>
+                </Grid.Background>
+                <TextBlock
+                    x:Name="TextblockPanelName"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Text="Dashboard" FontFamily="Arial" 
+                    Foreground="#FFAA7C7C" FontSize="20"
+                    >
+                    <TextBlock.Effect>
+                        <DropShadowEffect
+                            ShadowDepth="0"
+                            BlurRadius="10"
+                            Color="Gold" Direction="0"/>
+                    </TextBlock.Effect>
+                </TextBlock>
+            </Grid>
+            <StackPanel Grid.Row="1">
+                <Button Margin="10" Background="#FF674F86"
+                        x:Name="ButtonDashboard"
+                        Click="ButtonDashboard_Click">
+                    <Button.Effect>
+                        <DropShadowEffect
+                            BlurRadius="10"
+                            Color="#FFB1AEAE"
+                            RenderingBias="Quality"
+                            ShadowDepth="5"/>
+                    </Button.Effect>
+                    <Grid Width="160">
+                        <materialDesign:PackIcon Margin="0,10" Kind="Home" HorizontalAlignment="Left" Foreground="White" Width="20" Height="20" VerticalAlignment="Center"/>
+                        <TextBlock Text="Dashboard" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="14"/>
+                    </Grid>
+                </Button>
+                <Button Margin="10" Background="#FF674F86"
+                        x:Name="ButtonManageProjects"
+                        Click="ButtonManageProjects_Click">
+                    <Button.Effect>
+                        <DropShadowEffect
+                            BlurRadius="10"
+                            Color="#FFB1AEAE"
+                            RenderingBias="Quality"
+                            ShadowDepth="5"/>
+                    </Button.Effect>
+                    <Grid Width="160">
+                        <materialDesign:PackIcon Margin="0,10" Kind="RobotIndustrial"  HorizontalAlignment="Left" Foreground="White" Width="20" Height="20" VerticalAlignment="Center"/>
+                        <TextBlock Text="Manage Projects" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="14"/>
+                    </Grid>
+                </Button>
+                <Button Margin="10" Background="#FF674F86">
+                    <Button.Effect>
+                        <DropShadowEffect
+                            BlurRadius="10"
+                            Color="#FFB1AEAE"
+                            RenderingBias="Quality"
+                            ShadowDepth="5"/>
+                    </Button.Effect>
+                    <Grid Width="160">
+                        <materialDesign:PackIcon Margin="0,10" Kind="CarPickup" HorizontalAlignment="Left" Foreground="White" Width="20" Height="20" VerticalAlignment="Center"/>
+                        <TextBlock Text="Manage Trips" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="14"/>
+                    </Grid>
+                </Button>
+                <Button Margin="10" Background="#FF674F86"
+                        x:Name="ButtonOrganization"
+                        Click="ButtonOrganization_Click">
+                    <Button.Effect>
+                        <DropShadowEffect
+                            BlurRadius="10"
+                            Color="#FFB1AEAE"
+                            RenderingBias="Quality"
+                            ShadowDepth="5"/>
+                    </Button.Effect>
+                    <Grid Width="160">
+                        <materialDesign:PackIcon Margin="0,10" Kind="People" HorizontalAlignment="Left" Foreground="White" Width="20" Height="20" VerticalAlignment="Center"/>
+                        <TextBlock Text="Organization" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="14"/>
+                    </Grid>
+                </Button>
+            </StackPanel>
+        </Grid>
+        <Grid x:Name="GridTitleBar"
+            Grid.ColumnSpan="2" 
+            Background="#FF510CA9"
+            MouseDown="GridTitleBar_MouseDown">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <Image Width="30">
+                    <Image.Source>
+                        <BitmapImage DecodePixelWidth="30" 
+                            UriSource="/Images/Document-icon.png" />
+                    </Image.Source>
+                </Image>
+                <TextBlock
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
+                       Margin="10,0"
+                       Text="ShopFloorERP" Foreground="White" FontSize="16" FontFamily="Segoe UI Semibold"
+                       >
+                    <TextBlock.Effect>
+                        <DropShadowEffect BlurRadius="10" ShadowDepth="0" Color="White"/>
+                    </TextBlock.Effect>
+                </TextBlock>
+            </StackPanel>
+            <StackPanel Grid.Column="1"
+                Orientation="Horizontal"
+                HorizontalAlignment="Right"
+                Margin="5,0">
+                <Button
+                    Height="25"
+                    Width="25"
+                    Background="{x:Null}"
+                    BorderBrush="{x:Null}"
+                    Foreground="White">
+                    <materialDesign:PackIcon
+                        Kind="Bell"/>
+                </Button>
+                <Button
+                    Height="25"
+                    Width="25"
+                    Background="{x:Null}"
+                    BorderBrush="{x:Null}"
+                    Foreground="White">
+                    <materialDesign:PackIcon
+                        Kind="Account"/>
+                </Button>
+                <Button
+                    x:Name="ButtonMinimize"
+                    Height="25"
+                    Width="25"
+                    Background="{x:Null}"
+                    BorderBrush="{x:Null}"
+                    Foreground="White"
+                    Click="ButtonMinimize_Click">
+                    <materialDesign:PackIcon
+                        Kind="WindowMinimize"/>
+                </Button>
+                <Button
+                    x:Name="ButtonClose"
+                    Height="25"
+                    Width="25"
+                    Background="{x:Null}"
+                    BorderBrush="{x:Null}"
+                    Foreground="White"
+                    Click="ButtonClose_Click">
+                    <materialDesign:PackIcon
+                        Kind="Close"/>
+                </Button>
+            </StackPanel>
+
+        </Grid>
+    </Grid>
+</Window>

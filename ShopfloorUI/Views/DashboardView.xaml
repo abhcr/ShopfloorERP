@@ -1,0 +1,361 @@
+﻿<UserControl x:Class="ShopfloorUI.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ShopfloorUI.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             x:Name="dashboardViewItem"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Margin="1">
+        <TabControl>
+            <TabItem Header="Resource Queue">
+                <Grid>
+                    <Grid.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FFD7D7D7"/>
+                            <GradientStop Color="#FF92976F" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Grid.Background>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
+                    <Grid
+                        Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="520"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <ScrollViewer Margin="5" Grid.Column="0">
+                            <ListView
+                                ItemsSource="{Binding Resources}"
+                                SelectedItem="{Binding SelectedResource}"
+                                DisplayMemberPath="NameWithQSize">
+                            </ListView>
+                        </ScrollViewer>
+                        <ScrollViewer Margin="5" Grid.Column="1">
+                            <ListView
+                                ItemsSource="{Binding Processes}"
+                                SelectedItem="{Binding SelectedProcess}">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="ID" Width="20">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Id}" Margin="0"
+                                                        MinWidth="15"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="Process" Width="115">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding Name}" 
+                                                           Margin="0" Background="{Binding ProcessStatusColor}"
+                                                           MinWidth="100" TextAlignment="Left"/>
+                                                        <ComboBox 
+                                                            ItemsSource="{Binding DataContext.Employees, ElementName=dashboardViewItem}"
+                                                            SelectedItem="{Binding ExecutingEmployee}" 
+                                                            DisplayMemberPath="NameWithQSize"
+                                                            Margin="0"
+                                                            MinWidth="100" />
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="Project" Width="70">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding ProjectId}" Margin="0"
+                                                            MinWidth="55"/>
+                                                        <TextBlock Text="{Binding ProjectName}" Margin="0"
+                                                            MinWidth="55"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="Status" Width="100">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <ComboBox ItemsSource="{Binding ProcessStatusOptions}" 
+                                                        SelectedItem="{Binding StatusDisplay}" Margin="0" 
+                                                        MinWidth="85"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="Time" Width="190">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="Duration: " VerticalAlignment="Center" Width="60"/>
+                                                            <TextBox Text="{Binding DurationHours}" Width="40"/>
+                                                        </StackPanel>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="Start Date: " VerticalAlignment="Center" Width="60"/>
+                                                            <DatePicker SelectedDate="{Binding ProcessStartDateDisplay}"/>
+                                                        </StackPanel>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="End Date: " VerticalAlignment="Center" Width="60"/>
+                                                            <DatePicker SelectedDate="{Binding ProcessEndDateDisplay}" HorizontalAlignment="Right"/>
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </ScrollViewer>
+                        <Grid Grid.Column="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Button IsEnabled="{Binding IsUpButtonEnabled}"
+                    Grid.Row="1"
+                    HorizontalAlignment="Left"
+				    Margin="10" 
+				    Background="#FF6F677A"
+				    x:Name="ButtonTemplate"
+				    Command="{Binding UpClickedCommand}">
+                                <Button.Effect>
+                                    <DropShadowEffect
+						    BlurRadius="10"
+						    Color="DarkGray"
+						    RenderingBias="Quality"
+						    ShadowDepth="5"/>
+                                </Button.Effect>
+                                <StackPanel Width="70">
+                                    <materialDesign:PackIcon 
+						Margin="5,5" 
+						Kind="ArrowTop" 
+						HorizontalAlignment="Center" 
+						Foreground="White" 
+						Width="20" 
+						Height="20" 
+						VerticalAlignment="Top"/>
+                                    <TextBlock 
+                            Text="Move Up" 
+                            HorizontalAlignment="Center" 
+                            Foreground="White" VerticalAlignment="Center" 
+                            FontSize="14"/>
+                                </StackPanel>
+                            </Button>
+
+                            <Button IsEnabled="{Binding IsDownButtonEnabled}"
+                    Grid.Row="2"
+                    HorizontalAlignment="Left"
+				    Margin="10" 
+				    Background="#FF6F677A"
+				    x:Name="ButtonDown"
+				    Command="{Binding DownClickedCommand}">
+                                <Button.Effect>
+                                    <DropShadowEffect
+						    BlurRadius="10"
+						    Color="DarkGray"
+						    RenderingBias="Quality"
+						    ShadowDepth="5"/>
+                                </Button.Effect>
+                                <StackPanel Width="70">
+                                    <TextBlock 
+                            Text="Down" 
+                            HorizontalAlignment="Center" 
+                            Foreground="White" VerticalAlignment="Center" 
+                            FontSize="14"/>
+                                    <materialDesign:PackIcon 
+						    Margin="5,5" 
+						    Kind="ArrowBottom" 
+						    HorizontalAlignment="Center" 
+						    Foreground="White" 
+						    Width="20" 
+						    Height="20" 
+						    VerticalAlignment="Top"/>
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+                        <Button
+                HorizontalAlignment="Right"
+				Margin="5" 
+				Background="#FF684E8D"
+				x:Name="ButtonSave"
+				Command="{Binding SaveClickedCommand}">
+                            <Button.Effect>
+                                <DropShadowEffect
+						    BlurRadius="10"
+						    Color="DarkGray"
+						    RenderingBias="Quality"
+						    ShadowDepth="5"/>
+                            </Button.Effect>
+                            <Grid Width="100">
+                                <materialDesign:PackIcon 
+						    Margin="5,5" 
+						    Kind="ContentSave" 
+						    HorizontalAlignment="Left" 
+						    Foreground="White" 
+						    Width="20"
+						    Height="20" 
+    						VerticalAlignment="Center"/>
+                                <TextBlock Text="Save" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="14"/>
+                            </Grid>
+                        </Button>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Employee Queue">
+                <Grid>
+                    <Grid.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FFD7D7D7"/>
+                            <GradientStop Color="#FF92976F" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Grid.Background>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
+                    <Grid
+                        Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <ScrollViewer Margin="5" Grid.Column="0">
+                            <ListView
+                                ItemsSource="{Binding DataContext.Employees, ElementName=dashboardViewItem}"
+                                SelectedItem="{Binding SelectedEmployee}"
+                                DisplayMemberPath="NameWithQSize">
+                            </ListView>
+                        </ScrollViewer>
+                        <ScrollViewer Margin="5" Grid.Column="1">
+                            <ListView
+                                ItemsSource="{Binding EmployeeProcesses}"
+                                SelectedItem="{Binding SelectedEmployeeProcess}">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="ID" Width="40">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Id}" Margin="0"
+                                                MinWidth="20"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="Process" Width="100">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding Name}"
+                                                            Margin="0"
+                                                            MinWidth="100" TextAlignment="Left"/>
+                                                        <TextBlock Text="{Binding ExecutingResource.Name}" Margin="0"
+                                                            MinWidth="100" TextAlignment="Left"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="Project" Width="70">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding ProjectId}" Margin="0"
+                                                            MinWidth="55"/>
+                                                        <TextBlock Text="{Binding ProjectName}" Margin="0"
+                                                            MinWidth="55"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="Status" Width="100">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <ComboBox ItemsSource="{Binding ProcessStatusOptions}" 
+                                                        SelectedItem="{Binding StatusDisplay}" Margin="0" 
+                                                        MinWidth="85"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="Time" Width="200">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="Duration: " VerticalAlignment="Center" Width="60"/>
+                                                            <TextBox Text="{Binding DurationHours}" Width="40"/>
+                                                        </StackPanel>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="Start Date: " VerticalAlignment="Center" Width="60"/>
+                                                            <DatePicker SelectedDate="{Binding ProcessStartDateDisplay}"/>
+                                                        </StackPanel>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="End Date: " VerticalAlignment="Center" Width="60"/>
+                                                            <DatePicker SelectedDate="{Binding ProcessEndDateDisplay}" HorizontalAlignment="Right"/>
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </ScrollViewer>
+                        <Grid Grid.Column="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                        </Grid>
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+                        <Button
+                            HorizontalAlignment="Right"
+				            Margin="5" 
+				            Background="#FF684E8D"
+				            x:Name="ButtonEmployeeSave"
+				            Command="{Binding EmployeeSaveClickedCommand}">
+                            <Button.Effect>
+                                <DropShadowEffect
+						            BlurRadius="10"
+						            Color="DarkGray"
+						            RenderingBias="Quality"
+						            ShadowDepth="5"/>
+                            </Button.Effect>
+                            <Grid Width="100">
+                                <materialDesign:PackIcon 
+						            Margin="5,5" 
+						            Kind="ContentSave" 
+						            HorizontalAlignment="Left" 
+						            Foreground="White" 
+						            Width="20"
+						            Height="20" 
+    						        VerticalAlignment="Center"/>
+                                <TextBlock Text="Save" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="14"/>
+                            </Grid>
+                        </Button>
+                    </Grid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>
